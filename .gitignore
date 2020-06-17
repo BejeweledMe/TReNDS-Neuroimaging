@@ -1,0 +1,10 @@
+/__pycache__
+/.ipynb_checkpoints
+/venv
+/data
+/.idea
+/idea
+*.*~
+*.pyc
+*.pth
+*.csv

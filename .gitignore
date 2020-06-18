@@ -2,8 +2,13 @@
 /.ipynb_checkpoints
 /venv
 /data
+data
 /.idea
 /idea
+.idea
+idea
+model_weights
+train_history
 *.*~
 *.pyc
 *.pth

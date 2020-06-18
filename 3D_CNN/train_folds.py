@@ -43,9 +43,8 @@ seed_everything(SEED)
 folds = KFold(n_splits=N_FOLDS, shuffle=True, random_state=SEED)
 
 
-train_data = pd.read_csv('data/train_scores.csv')
-del train_data['Id']
-for targ in train_data.columns:
+train_data = pd.read_csv('data/train_scores.csv').iloc[:10]
+for targ in train_data.columns[1:]:
     train_data[targ].fillna((train_data[targ].mean()+train_data[targ].median())/2,
                             inplace=True)
 
@@ -58,7 +57,7 @@ def kfold_separate_targets():
     Returns data frame of predicted validation data.
     '''
     oof_df = pd.DataFrame(data=np.zeros(train_data.shape), columns=train_data.columns)
-    for targ in train_data.columns:
+    for targ in train_data.columns[1:]:
         train_kfold(targ, oof_df, SAVE_HISTORY)
 
     return oof_df
@@ -74,7 +73,7 @@ def train_kfold(targ, oof_df, save_history=False):
     :return: none
     '''
     print(f'Target : {targ}')
-    for fold_, (trn_idx, val_idx) in enumerate(folds.split()):
+    for fold_, (trn_idx, val_idx) in enumerate(folds.split(train_data, train_data)):
         print(f'Fold {fold_+1}')
 
         tr_data = train_data.loc[trn_idx]
@@ -104,8 +103,8 @@ def train_kfold(targ, oof_df, save_history=False):
                 json.dump(history_dict, f, indent=2, ensure_ascii=False)
 
 
-            weights = model.state_dict()
-            torch.save(weights, f'{WEIGHTS_DIR}/model_{targ}_fold{fold_}.pth')
+        weights = model.state_dict()
+        torch.save(weights, f'{WEIGHTS_DIR}/model_{targ}_fold{fold_}.pth')
 
 
         val_loader = DataLoader(dataset=val_dataset, shuffle=False,

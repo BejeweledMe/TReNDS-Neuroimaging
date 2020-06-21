@@ -17,8 +17,8 @@ import torch.nn.functional as F
 
 from create_model import create_nn
 from dataset import MRIDataset
-from utils import seed_everything, score, make_val_preds
-from utils import fit_epoch, eval_epoch, train
+from utils import seed_everything, score, w_nae_score
+from utils import fit_epoch, eval_epoch, train, make_val_preds
 
 
 MRI_TR = 'data/fMRI_train/'
@@ -129,7 +129,7 @@ def train_kfold(targ, oof_df, save_history=False):
 
 if __name__ == '__main__':
     oof = kfold_separate_targets()
-    overall_score = score(train_data[TARGETS].values, oof.values)
+    overall_score = w_nae_score(train_data[TARGETS].values, oof.values)
 
     print('==================================')
     print('Training completed.')

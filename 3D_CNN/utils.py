@@ -19,6 +19,10 @@ def seed_everything(seed=42):
 def score(y_true, y_pred):
     return np.mean(np.sum(np.abs(y_true - y_pred), axis=0)/np.sum(y_true, axis=0))
 
+def w_nae_score(y_true, y_pred):
+    w = np.array([0.3, 0.175, 0.175, 0.175, 0.175])
+    return np.sum(w*np.sum(np.abs(y_true - y_pred), axis=0)/np.sum(y_true, axis=0))
+
 
 def fit_epoch(model, train_loader, criterion, optimizer):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')

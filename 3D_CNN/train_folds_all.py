@@ -24,13 +24,9 @@ import torch.nn.functional as F
 
 from create_model import create_nn
 from dataset import MRIDataset
-from utils import seed_everything, make_val_preds
-from utils import fit_epoch, eval_epoch, train
+from utils import seed_everything, w_nae_score as score
+from utils import fit_epoch, eval_epoch, train, make_val_preds
 
-
-def score(y_true, y_pred):
-    w = np.array([0.3, 0.175, 0.175, 0.175, 0.175])
-    return np.sum(w*np.sum(np.abs(y_true - y_pred), axis=0)/np.sum(y_true, axis=0))
 
 
 MRI_TR = 'data/fMRI_train/'

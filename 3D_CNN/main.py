@@ -209,7 +209,7 @@ def main():
     if USE_TARGETS == 'all':
         oof = train_kfold_all(SAVE_HISTORY)
     else:
-        kfold_separate_targets()
+        oof = kfold_separate_targets()
     overall_score = w_nae_score(train_data[TARGETS].values, oof.values)
     print('==================================')
     print('Training completed.')

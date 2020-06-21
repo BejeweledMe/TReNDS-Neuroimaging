@@ -71,11 +71,13 @@ def eval_epoch(model, val_loader, criterion):
     return val_loss, val_acc
 
 
-def train(train_set, val_set, model, epochs, batch_size, opt, criterion):
+def train(train_set, val_set, model, epochs, batch_size, opt, criterion, workers=6):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     model.to(device)
-    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=8)
-    val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=8)
+    train_loader = DataLoader(train_set, batch_size=batch_size,
+                              shuffle=True, num_workers=workers)
+    val_loader = DataLoader(val_set, batch_size=batch_size,
+                            shuffle=False, num_workers=workers)
 
     history = []
     log_template = '\nEpoch {ep:03d} train_loss: {t_loss:0.4f} \

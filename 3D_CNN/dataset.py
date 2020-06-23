@@ -63,7 +63,7 @@ class MRIDataset(Dataset):
         return image
 
     def _prepare_sample(self, image):
-        image = torch.FloatTensor(image).permute(3, 0, 1, 2)
+        image = torch.FloatTensor(image)
         return image
 
     def __getitem__(self, index):
